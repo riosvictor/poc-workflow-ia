@@ -1,0 +1,69 @@
+{
+  "id": "add-users-to-github-team",
+  "name": "Adicionar Usuários ao Time do GitHub",
+  "description": "Adiciona usuários a um time do GitHub",
+  "version": "1.0.0",
+  "category": "github",
+  "tags": ["github", "team", "users", "colaboração"],
+  "summary": "Este fluxo permite adicionar múltiplos usuários a um time específico dentro de uma organização do GitHub",
+  "inputs": [
+    {
+      "name": "organization",
+      "type": "string",
+      "label": "Organização",
+      "description": "Nome da organização do GitHub onde o time está localizado",
+      "required": true,
+      "examples": ["google", "meta", "microsoft"],
+      "semanticHints": ["empresa", "organização", "org"],
+      "validation": {
+        "url": "http://localhost:3003/validate/orgs",
+        "errorMessage": "Esta organização não existe ou não está disponível"
+      }
+    },
+    {
+      "name": "team",
+      "type": "string",
+      "label": "Time",
+      "description": "Nome do time dentro da organização onde os usuários serão adicionados",
+      "required": true,
+      "examples": ["engenharia", "design", "produto", "marketing"],
+      "semanticHints": ["equipe", "grupo", "squad", "departamento"],
+      "validation": {
+        "url": "http://localhost:3003/validate/teams",
+        "errorMessage": "Este time não existe na organização especificada"
+      }
+    },
+    {
+      "name": "users",
+      "type": "array",
+      "label": "Usuários",
+      "description": "Lista de nomes de usuários do GitHub que serão adicionados ao time",
+      "required": true,
+      "itemType": "string",
+      "minItems": 1,
+      "examples": [["alice", "bob"], ["john", "mary", "alex"]],
+      "semanticHints": ["pessoas", "membros", "colaboradores", "integrantes"],
+      "validation": {
+        "url": "http://localhost:3003/validate/users",
+        "errorMessage": "Um ou mais usuários não foram encontrados no GitHub"
+      }
+    }
+  ],
+  "outputs": [
+    {
+      "name": "addedUsers",
+      "type": "array",
+      "description": "Lista de usuários que foram adicionados com sucesso"
+    },
+    {
+      "name": "failedUsers",
+      "type": "array",
+      "description": "Lista de usuários que não puderam ser adicionados"
+    }
+  ],
+  "naturalLanguageExamples": [
+    "Adicione Alice e Bob ao time de engenharia da Google",
+    "Coloque os usuários John, Mary e Alex no time de design da Meta",
+    "Inclua Carlos e Ana no grupo de produto da Microsoft"
+  ]
+}

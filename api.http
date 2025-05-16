@@ -1,0 +1,162 @@
+# Arquivo de testes da API de Workflow com Inteligência Artificial
+# Testes para o fluxo completo de conversação com capacidades semânticas aprimoradas
+
+###
+# Cenário 1: Iniciar conversa - Mensagem com algumas informações
+# Demonstra a capacidade de extrair múltiplos parâmetros de uma única mensagem
+POST http://localhost:3001/conversation
+Content-Type: application/json
+
+{
+  "message": "Adicione Fernando e Paulo ao time de alquimia da org boticario"
+}
+
+###
+# Cenário 2: Iniciar conversa - Mensagem sem informações suficientes
+# Testa a capacidade do sistema de identificar e solicitar informações faltantes
+POST http://localhost:3001/conversation
+Content-Type: application/json
+
+{
+  "message": "Quero adicionar usuários a um time"
+}
+
+###
+# Cenário 3: Fornecer informações adicionais
+# Demonstra a capacidade de continuar uma conversa e preencher informações faltantes
+# Substitua CONVERSATION_ID pelo ID retornado na resposta anterior
+POST http://localhost:3001/conversation
+Content-Type: application/json
+
+{
+  "conversationId": "1747313405184",
+  "message": "Sim"
+}
+
+###
+# Cenário 4: Confirmar execução
+# Demonstra a capacidade de confirmar a execução do fluxo
+# Substitua CONVERSATION_ID pelo ID da conversa atual
+POST http://localhost:3001/conversation
+Content-Type: application/json
+
+{
+  "conversationId": "CONVERSATION_ID",
+  "message": "Sim, pode prosseguir com a execução"
+}
+
+###
+# Cenário 5: Iniciar conversa com dados inválidos - Usuários inválidos
+# Testa a validação de dados e o tratamento de erros
+POST http://localhost:3001/conversation
+Content-Type: application/json
+
+{
+  "message": "Adicione Paulo e Maria ao time de engenharia da Google"
+}
+
+###
+# Cenário 6: Responder à validação falha - Corrigir usuários
+# Demonstra a capacidade de corrigir valores inválidos
+# Substitua CONVERSATION_ID pelo ID da conversa que falhou
+POST http://localhost:3001/conversation
+Content-Type: application/json
+
+{
+  "conversationId": "CONVERSATION_ID",
+  "message": "Na verdade, quero adicionar Alice e Bob ao time, não Paulo e Maria"
+}
+
+###
+# Cenário 7: Iniciar conversa com dados inválidos - Organização inválida
+# Testa a validação de diferentes tipos de dados
+POST http://localhost:3001/conversation
+Content-Type: application/json
+
+{
+  "message": "Adicione Alice e Bob ao time de engenharia da Microsoft"
+}
+
+###
+# Cenário 8: Responder à validação falha - Corrigir organização
+# Demonstra a capacidade de entender correções específicas
+# Substitua CONVERSATION_ID pelo ID da conversa que falhou
+POST http://localhost:3001/conversation
+Content-Type: application/json
+
+{
+  "conversationId": "CONVERSATION_ID",
+  "message": "Na verdade, a organização é Google, não Microsoft"
+}
+
+###
+# Cenário 9: Recusar execução (não confirmar)
+# Testa a capacidade de cancelar uma operação
+# Substitua CONVERSATION_ID pelo ID da conversa atual
+POST http://localhost:3001/conversation
+Content-Type: application/json
+
+{
+  "conversationId": "CONVERSATION_ID",
+  "message": "Não, cancele a operação"
+}
+
+###
+# Cenário 10: Resetar uma conversa
+# Demonstra como reiniciar uma conversa do zero
+# Substitua CONVERSATION_ID pelo ID da conversa a ser resetada
+DELETE http://localhost:3001/conversation/CONVERSATION_ID
+
+###
+# Cenário 11: Conversa completa em uma única mensagem com confirmação implícita
+# Testa a capacidade de entender comandos complexos com múltiplos parâmetros
+POST http://localhost:3001/conversation
+Content-Type: application/json
+
+{
+  "message": "Adicione os usuários Alice e Bob ao time de design da Meta e execute o fluxo"
+}
+
+###
+# Cenário 12: Usar termos alternativos (demonstra compreensão semântica)
+# Testa a capacidade de entender sinônimos e termos relacionados
+POST http://localhost:3001/conversation
+Content-Type: application/json
+
+{
+  "message": "Inclua os colaboradores Alice e Carol na equipe de produto da Meta"
+}
+
+###
+# Cenário 13: Entrada com linguagem mais natural e verbosa
+# Demonstra a capacidade de extrair informações de texto mais complexo
+POST http://localhost:3001/conversation
+Content-Type: application/json
+
+{
+  "message": "Olá, preciso que você adicione dois desenvolvedores ao nosso time de engenharia. Os nomes deles são Alice e Bob, e eles devem ser incluídos na nossa organização Google o quanto antes."
+}
+
+###
+# Cenário 14: Correção parcial de dados
+# Testa a capacidade de corrigir apenas um dos campos com problema
+# Substitua CONVERSATION_ID pelo ID da conversa que falhou
+POST http://localhost:3001/conversation
+Content-Type: application/json
+
+{
+  "conversationId": "CONVERSATION_ID",
+  "message": "Vamos mudar só o time para design"
+}
+
+###
+# Cenário 15: Confirmação com detalhes adicionais
+# Testa a capacidade de confirmar mesmo quando há texto adicional
+# Substitua CONVERSATION_ID pelo ID da conversa atual
+POST http://localhost:3001/conversation
+Content-Type: application/json
+
+{
+  "conversationId": "CONVERSATION_ID",
+  "message": "Sim, por favor prossiga com a adição dos usuários ao time conforme especificado. Preciso disso pronto hoje."
+}
